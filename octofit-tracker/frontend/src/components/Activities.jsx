@@ -1,11 +1,9 @@
 import { formatDate, useCollection } from '../api.js'
 
 const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
-const API_BASE_URL = codespaceName
-  ? `https://${codespaceName}-8000.app.github.dev`
-  : 'http://localhost:8000'
-const ENDPOINT = '/api/activities/'
-const fullEndpoint = `${API_BASE_URL}${ENDPOINT}`
+const fullEndpoint = codespaceName
+  ? `https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/activities/`
+  : 'http://localhost:8000/api/activities/'
 
 function Activities() {
   const { items, loading, error } = useCollection(fullEndpoint)
