@@ -1,9 +1,14 @@
 import { formatDate, useCollection } from '../api.js'
 
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
+const API_BASE_URL = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev`
+  : 'http://localhost:8000'
 const ENDPOINT = '/api/activities/'
+const fullEndpoint = `${API_BASE_URL}${ENDPOINT}`
 
 function Activities() {
-  const { items, loading, error } = useCollection(ENDPOINT)
+  const { items, loading, error } = useCollection(fullEndpoint)
 
   return (
     <section>

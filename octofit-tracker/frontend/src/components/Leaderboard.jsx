@@ -1,9 +1,14 @@
 import { useCollection } from '../api.js'
 
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
+const API_BASE_URL = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev`
+  : 'http://localhost:8000'
 const ENDPOINT = '/api/leaderboard/'
+const fullEndpoint = `${API_BASE_URL}${ENDPOINT}`
 
 function Leaderboard() {
-  const { items, loading, error } = useCollection(ENDPOINT)
+  const { items, loading, error } = useCollection(fullEndpoint)
   const rankedItems = [...items].sort((left, right) => (left.rank ?? 999) - (right.rank ?? 999))
 
   return <section><div className="section-heading"><div><p className="eyebrow">Friendly competition</p><h1>Leaderboard</h1></div><span className="count-badge">{items.length} athletes</span></div><div className="leaderboard-list">{rankedItems.map((entry, index) => <div className="leader-row" key={entry._id || entry.id}><span className="rank">{entry.rank ?? index + 1}</span><div className="flex-grow-1"><strong>{entry.displayName || entry.username || entry.userId || 'Athlete'}</strong><small>{entry.points ?? 0} points earned</small></div><span className="score">{entry.points ?? 0}</span></div>)}{loading && <p className="empty-state">Loading leaderboard...</p>}{!loading && !error && items.length === 0 && <p className="empty-state">The leaderboard is waiting for its first score.</p>}{error && <p className="empty-state text-danger">{error}</p>}</div></section>
