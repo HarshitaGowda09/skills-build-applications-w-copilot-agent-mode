@@ -1,7 +1,8 @@
 ---
 applyTo: "octofit-tracker/backend/**"
 ---
-# Octofit Tracker Logic + Data Tier Guidelines
+# Octofit Tracker Logic + Data Tier 
+
 
 ## Logic tier (Node.js + Express + TypeScript)
 
